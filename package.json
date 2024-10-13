@@ -1,0 +1,24 @@
+{
+  "name": "action-markuplint",
+  "version": "1.0.0",
+  "description": "GitHub Action for markuplint with reviewdog",
+  "main": "index.js",
+  "scripts": {
+    "lint": "markuplint **/test.html -f JSON markuplint-formatter-rdjson/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reviewdog/action-markuplint.git"
+  },
+  "keywords": [
+    "github-actions",
+    "markuplint",
+    "reviewdog"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@markuplint/ml-core": "^3.0.0",
+    "markuplint": "^4.9.4"
+  }
+}
