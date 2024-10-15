@@ -18,7 +18,7 @@ if ! type markuplint > /dev/null 2>&1; then
 fi
 
 echo '::group:: Running markuplint with reviewdog 🐶 ...'
-markuplint -f JSON ${INPUT_MARKUPLINT_FLAGS:-'.'} \
+npx "markuplint -f JSON "${INPUT_MARKUPLINT_FLAGS:-'.'}"" \
   | node $GITHUB_ACTION_PATH/markuplint-formatter-rdjson/index.js \
   | reviewdog -f=rdjson \
       -name="markuplint" \
