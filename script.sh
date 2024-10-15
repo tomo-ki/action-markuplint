@@ -24,7 +24,7 @@ echo "markuplint version:$(npx --no-install -c 'markuplint --version')"
 
 echo '::group:: Running markuplint with reviewdog 🐶 ...'
 npx "markuplint -f JSON "${INPUT_MARKUPLINT_FLAGS:-'.'}"" \
-  | node $GITHUB_ACTION_PATH/markuplint-formatter-rdjson/index.js \
+  | node "${MARKUPLINT_FORMATTER}" \
   | reviewdog -f=rdjson \
       -name="markuplint" \
       -reporter="${INPUT_REPORTER:-github-pr-review}" \
