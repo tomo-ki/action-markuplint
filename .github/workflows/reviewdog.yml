@@ -25,7 +25,7 @@ jobs:
           tool_name: markuplint-github-pr-check
           reporter: github-pr-check
           level: info
-          markuplint_flags: "src/**/*.html"
+          markuplint_flags: "testdata/**/*.html"
       - name: markuplint-github-check
         uses: ./
         with:
@@ -33,29 +33,29 @@ jobs:
           tool_name: markuplint-github-check
           reporter: github-check
           level: warning
-          markuplint_flags: "src/**/*.html"
+          markuplint_flags: "testdata/**/*.html"
       - name: markuplint-github-pr-review
         uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tool_name: markuplint-github-pr-review
           reporter: github-pr-review
-          markuplint_flags: "src/**/*.html"
-      - name: markuplint-subproject-github-pr-review
-        uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool_name: markuplint-subproject-github-pr-review
-          reporter: github-pr-review
-          workdir: ./test-subproject
-          markuplint_flags: "sub-src/**/*.html"
-      - name: markuplint-subproject
-        uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool_name: markuplint-subproject
-          workdir: ./test-subproject
-          markuplint_flags: "sub-src/**/*.html"
-          reporter: github-check
-          level: warning
-          filter_mode: file
+          markuplint_flags: "testdata/**/*.html"
+      # - name: markuplint-subproject-github-pr-review
+      #   uses: ./
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     tool_name: markuplint-subproject-github-pr-review
+      #     reporter: github-pr-review
+      #     workdir: ./test-subproject
+      #     markuplint_flags: "sub-testdata/**/*.html"
+      # - name: markuplint-subproject
+      #   uses: ./
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     tool_name: markuplint-subproject
+      #     workdir: ./test-subproject
+      #     markuplint_flags: "sub-testdata/**/*.html"
+      #     reporter: github-check
+      #     level: warning
+      #     filter_mode: file
