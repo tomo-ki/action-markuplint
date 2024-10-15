@@ -1,12 +1,61 @@
-name: markuplint
+name: reviewdog
 on: [pull_request]
 jobs:
   markuplint:
     name: runner / markuplint
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version:
+          - "18"
+          - "20"
+
     steps:
       - uses: actions/checkout@v4
-      - uses: reviewdog/action-markuplint@v1
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: markuplint-github-pr-check
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: markuplint-github-pr-check
+          reporter: github-pr-check
+          level: info
+          markuplint_flags: "src/**/*.html"
+      - name: markuplint-github-check
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: markuplint-github-check
+          reporter: github-check
+          level: warning
+          markuplint_flags: "src/**/*.html"
+      - name: markuplint-github-pr-review
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: markuplint-github-pr-review
           reporter: github-pr-review
+          markuplint_flags: "src/**/*.html"
+      - name: markuplint-subproject-github-pr-review
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: markuplint-subproject-github-pr-review
+          reporter: github-pr-review
+          workdir: ./test-subproject
+          markuplint_flags: "sub-src/**/*.html"
+      - name: markuplint-subproject
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tool_name: markuplint-subproject
+          workdir: ./test-subproject
+          markuplint_flags: "sub-src/**/*.html"
+          reporter: github-check
+          level: warning
+          filter_mode: file
