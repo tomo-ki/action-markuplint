@@ -1,21 +1,26 @@
 #!/bin/sh
-set -e
 
 cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit 1
 
 TEMP_PATH="$(mktemp -d)"
 PATH="${TEMP_PATH}:$PATH"
 export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
+MARKUPLINT_FORMATTER="${GITHUB_ACTION_PATH}/markuplint-formatter-rdjson/index.js"
 
 echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
 curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b "${TEMP_PATH}" "${REVIEWDOG_VERSION}" 2>&1
 echo '::endgroup::'
 
-if ! type markuplint > /dev/null 2>&1; then
+npx --no-install -c 'markuplint --version'
+if [ $? -ne 0 ]; then
   echo '::group:: Running `npm install` to install markuplint ...'
+  set -e
   npm install
+  set +e
   echo '::endgroup::'
 fi
+
+echo "markuplint version:$(npx --no-install -c 'markuplint --version')"
 
 echo '::group:: Running markuplint with reviewdog 🐶 ...'
 npx "markuplint -f JSON "${INPUT_MARKUPLINT_FLAGS:-'.'}"" \
