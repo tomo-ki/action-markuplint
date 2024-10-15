@@ -19,7 +19,7 @@ fi
 
 echo '::group:: Running markuplint with reviewdog 🐶 ...'
 markuplint -f JSON ${INPUT_MARKUPLINT_FLAGS:-'.'} \
-  | node $GITHUB_ACTION_PATH/markuplint-formatter-rdjson.js \
+  | node $GITHUB_ACTION_PATH/markuplint-formatter-rdjson/index.js \
   | reviewdog -f=rdjson \
       -name="markuplint" \
       -reporter="${INPUT_REPORTER:-github-pr-review}" \
