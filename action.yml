@@ -1,43 +1,54 @@
-name: 'TODO: Run <linter-name> with reviewdog'
-description: 'TODO: 🐶 Run <linter-name> with reviewdog on pull requests to improve code review experience.'
-author: 'TODO: <your-name>'
+name: "Run markuplint with reviewdog"
+description: "🐶 Run markuplint with reviewdog on pull requests to improve code review experience."
+author: "Your Name"
 inputs:
   github_token:
-    description: 'GITHUB_TOKEN'
-    default: '${{ github.token }}'
-  workdir:
-    description: 'Working directory relative to the root directory.'
-    default: '.'
-  ### Flags for reviewdog ###
+    description: "GITHUB_TOKEN"
+    required: true
+    default: ${{ github.token }}
   level:
-    description: 'Report level for reviewdog [info,warning,error]'
-    default: 'error'
+    description: "Report level for reviewdog [info,warning,error]"
+    required: false
+    default: "error"
   reporter:
-    description: 'Reporter of reviewdog command [github-pr-check,github-pr-review].'
-    default: 'github-pr-check'
+    description: "Reporter of reviewdog command [github-check,github-pr-review]"
+    required: false
+    default: "github-pr-review"
   filter_mode:
-    description: |
-      Filtering mode for the reviewdog command [added,diff_context,file,nofilter].
-      Default is added.
-    default: 'added'
+    description: "Filtering mode for the reviewdog command [added,diff_context,file,nofilter]"
+    required: false
+    default: "added"
   fail_on_error:
-    description: |
-      Exit code for reviewdog when errors are found [true,false]
-      Default is `false`.
-    default: 'false'
+    description: "Exit code for reviewdog when errors are found [true,false]"
+    required: false
+    default: "false"
   reviewdog_flags:
-    description: 'Additional reviewdog flags'
-    default: ''
-  ### Flags for <linter-name> ###
-  locale:
-    description: '-locale flag of misspell. (US/UK)'
-    default: ''
+    description: "Additional reviewdog flags"
+    required: false
+    default: ""
+  markuplint_flags:
+    description: "Flags and args of markuplint command. Default: '.'"
+    required: false
+    default: "."
+  workdir:
+    description: "The directory from which to look for and run markuplint. Default '.'"
+    required: false
+    default: "."
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-
-# Ref: https://haya14busa.github.io/github-action-brandings/
-# TODO: update branding if you want.
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/script.sh
+      shell: bash
+      env:
+        REVIEWDOG_VERSION: v0.20.2
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        INPUT_LEVEL: ${{ inputs.level }}
+        INPUT_REPORTER: ${{ inputs.reporter }}
+        INPUT_FILTER_MODE: ${{ inputs.filter_mode }}
+        INPUT_FAIL_ON_ERROR: ${{ inputs.fail_on_error }}
+        INPUT_REVIEWDOG_FLAGS: ${{ inputs.reviewdog_flags }}
+        INPUT_MARKUPLINT_FLAGS: ${{ inputs.markuplint_flags }}
+        INPUT_WORKDIR: ${{ inputs.workdir }}
 branding:
-  icon: 'check'
-  color: 'blue'
+  icon: "check-circle"
+  color: "green"

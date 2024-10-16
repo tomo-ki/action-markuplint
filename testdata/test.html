@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markuplint Violations Example</title>
+</head>
+<body>
+    <!-- ID重複の例 -->
+    <div id="content">
+        <p id="content">This has a duplicate ID.</p>
+    </div>
+
+    <!-- アクセシビリティ属性欠如の例 -->
+    <img src="image.jpg">
+
+    <!-- 見出しレベルスキップの例 -->
+    <h1>Main Heading</h1>
+    <h3>Subheading</h3>
+
+    <!-- 不適切な属性値の引用符の例 -->
+    <a href='https://example.com'>Link</a>
+
+    <!-- 無効な要素の入れ子の例 -->
+    <p>
+        <div>This is invalid nesting.</div>
+    </p>
+
+    <!-- 閉じタグ欠如の例 -->
+    <ul>
+        <li>Item 1
+        <li>Item 2
+        <li>Item 3
+    </ul>
+
+    <!-- 不要な属性の例 -->
+    <div style="color: red;" align="center">Outdated alignment</div>
+
+    <!-- ラベルのないinput要素の例 -->
+    <input type="text" name="username">
+
+    <!-- 無効な属性の例 -->
+    <button disabled="disabled">Disabled Button</button>
+
+    <!-- 非推奨のタグ使用の例 -->
+    <center>This text is centered</center>
+
+    <!-- 空のalt属性の例 -->
+    <img src="decorative.jpg" alt="">
+
+</body>
+</html>
