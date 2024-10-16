@@ -30,14 +30,22 @@ function processMarkuplintResults(results) {
   }));
 }
 
-module.exports = function (results) {
-  const rdjson = {
+let input = "";
+process.stdin.resume();
+process.stdin.setEncoding("utf8");
+
+process.stdin.on("data", function (chunk) {
+  input += chunk;
+});
+
+process.stdin.on("end", function () {
+  const markuplintResults = JSON.parse(input);
+  const rdjsonResults = {
     source: {
       name: "markuplint",
       url: "https://markuplint.dev/",
     },
-    diagnostics: processMarkuplintResults(results),
+    diagnostics: processMarkuplintResults(markuplintResults),
   };
-
-  return JSON.stringify(rdjson, null, 2);
-};
+  console.log(JSON.stringify(rdjsonResults, null, 2));
+});
