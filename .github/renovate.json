@@ -1,8 +1,4 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "labels": [
-    "bump:patch"
-  ]
+  "extends": ["config:base"],
+  "rangeStrategy": "replace"
 }
